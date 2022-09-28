@@ -14,15 +14,19 @@ pygame.quit()
 quit()
 """
 class App:
+  BLACK = (0, 0, 0)
+  WHITE = (255, 255, 255)
+  SCOREFONT = 0
   def __init__(self):
     self._running = False
     self._display_surf = None
-    self.size = self.weight, self.height = 640, 400
-  
+    self.size = self.weight, self.height = 390, 420
   def on_init(self):
     pygame.init()
+    App.SCOREFONT = pygame.font.SysFont("dejavusansmono", 25)
     self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
     pygame.display.set_caption("Snake")
+    self._display_surf.fill(App.WHITE)
     self._running = True
   
   def on_event(self, event):
@@ -47,15 +51,26 @@ class App:
   def on_cleanup(self):
     pygame.quit()
 
+  def draw_grid(self, score):
+    score = App.SCOREFONT.render("Score: " + str(score), True, App.BLACK)
+    self._display_surf.blit(score, [0, 0])
+    blockSize = 30
+    for x in range(0, blockSize*13, blockSize):
+      for y in range(blockSize, blockSize*14, blockSize):
+        rect = pygame.Rect(x, y, blockSize, blockSize)
+        pygame.draw.rect(self._display_surf, App.BLACK, rect, 1)
+
   def on_execute(self):
     if self.on_init() == False:
       self._running = False
     
     while self._running:
+      self.draw_grid(0)
       for event in pygame.event.get():
         self.on_event(event)
       self.on_loop()
       self.on_render()
+      pygame.display.update()
     self.on_cleanup()
 
 if __name__ == "__main__":
