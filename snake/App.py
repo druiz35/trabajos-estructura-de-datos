@@ -41,7 +41,7 @@ class App:
         if self.snake[0][1] == 0 or (self.snake[0][0],self.snake[0][1]-1) in self.snake[2:len(self.snake)-1]:
           self.score = 0
           self.draw_grid(self.score)
-          self.contador = 0
+          self.contador = 10
           if self.manzana != -1:
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(self.manzana[0]*30+1, (self.manzana[1]+1)*30+1, 28, 28), 28)
           self.pixel_random()
@@ -68,7 +68,7 @@ class App:
         if self.snake[0][1] == 12 or (self.snake[0][0],self.snake[0][1]+1) in self.snake[2:len(self.snake)-1]:
           self.score = 0
           self.draw_grid(self.score)
-          self.contador = 0
+          self.contador = 10
           if self.manzana != -1:
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(self.manzana[0]*30+1, (self.manzana[1]+1)*30+1, 28, 28), 28)
           self.pixel_random()
@@ -95,7 +95,7 @@ class App:
         if self.snake[0][0] == 0 or (self.snake[0][0]-1,self.snake[0][1]) in self.snake[2:len(self.snake)-1]:
           self.score = 0
           self.draw_grid(self.score)
-          self.contador = 0
+          self.contador = 10
           if self.manzana != -1:
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(self.manzana[0]*30+1, (self.manzana[1]+1)*30+1, 28, 28), 28)
           self.pixel_random()
@@ -122,7 +122,7 @@ class App:
         if self.snake[0][0] == 12 or (self.snake[0][0]+1,self.snake[0][1]) in self.snake[2:len(self.snake)-1]:
           self.score = 0
           self.draw_grid(self.score)
-          self.contador = 0
+          self.contador = 10
           if self.manzana != -1:
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(self.manzana[0]*30+1, (self.manzana[1]+1)*30+1, 28, 28), 28)
           self.pixel_random()
