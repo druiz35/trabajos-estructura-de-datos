@@ -59,10 +59,12 @@ class App:
             print(self.snake)
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
           else:
-            self.contador = 0
+            self.contador = 9
             self.manzana = -1
             self.score += 10
             self.draw_grid(self.score)
+          if self.contador == 10:
+            self.pixel_random()
         print("UP")
       elif event.key == pygame.K_DOWN:
         if self.snake[0][1] == 12 or (self.snake[0][0],self.snake[0][1]+1) in self.snake[2:len(self.snake)-1]:
@@ -77,8 +79,6 @@ class App:
           self.snake = [(6,6), (6,7), (6,8)]
         elif self.snake[0][1]+1 != self.snake[1][1]:
           self.contador += 1
-          if self.contador == 10:
-            self.pixel_random()
           print(self.snake)
           self.snake.insert(0,(self.snake[0][0],self.snake[0][1]+1))
           if self.snake[0] != self.manzana:
@@ -86,10 +86,12 @@ class App:
             print(self.snake)
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
           else:
-            self.contador = 0
+            self.contador = 9
             self.manzana = -1
             self.score += 10
             self.draw_grid(self.score)
+          if self.contador == 10:
+            self.pixel_random()
         print("DOWN")
       elif event.key == pygame.K_LEFT:
         if self.snake[0][0] == 0 or (self.snake[0][0]-1,self.snake[0][1]) in self.snake[2:len(self.snake)-1]:
@@ -104,19 +106,21 @@ class App:
           self.snake = [(6,6), (6,7), (6,8)]
         elif self.snake[0][0]-1 != self.snake[1][0]:
           self.contador += 1
-          if self.contador == 10:
-            self.pixel_random()
           print(self.snake)
           self.snake.insert(0,(self.snake[0][0]-1,self.snake[0][1]))
+          if self.contador == 10:
+            self.pixel_random()
           if self.snake[0] != self.manzana:
             e = self.snake.pop()
             print(self.snake)
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
           else:
-            self.contador = 0
+            self.contador = 9
             self.manzana = -1
             self.score += 10
             self.draw_grid(self.score)
+          if self.contador == 10:
+            self.pixel_random()
         print("LEFT")
       elif event.key == pygame.K_RIGHT:
         if self.snake[0][0] == 12 or (self.snake[0][0]+1,self.snake[0][1]) in self.snake[2:len(self.snake)-1]:
@@ -141,19 +145,30 @@ class App:
             print(self.snake)
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
           else:
-            self.contador = 0
+            self.contador = 9
             self.manzana = -1
             self.score += 10
             self.draw_grid(self.score)
+          if self.contador == 10:
+            self.pixel_random()
         print("RIGHT")
     elif event.type == pygame.QUIT:
       self._running = False
   def pixel_random(self):
     randomx = int(random()*(169-len(self.snake)))
-    for e in range(0, randomx):
-      if (e%13, e//13) in self.snake:
+    print(randomx)
+    contador = 0
+    w = 0
+    while randomx != contador:
+      print((contador%13, contador//13))
+      if (contador%13, contador//13) in self.snake:
+        print('x')
         randomx += 1
-    self.manzana = (randomx%13, randomx//13)
+        w += 1
+      contador += 1
+    print(w)
+    print(contador)
+    self.manzana = (contador%13-1, contador//13)
   def on_loop(self):
     pass
   
@@ -179,12 +194,12 @@ class App:
     self.pixel_random()
     self.draw_grid(0)
     while self._running:
+      for event in pygame.event.get():
+        self.on_event(event)
       for e in self.snake:
         pygame.draw.rect(self._display_surf, App.GRAY, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
       if self.manzana != -1:
         pygame.draw.rect(self._display_surf, App.BLACK, pygame.Rect(self.manzana[0]*30+1, (self.manzana[1]+1)*30+1, 28, 28), 28)
-      for event in pygame.event.get():
-        self.on_event(event)
       self.on_loop()
       self.on_render()
       pygame.display.update()
