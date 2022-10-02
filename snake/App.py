@@ -167,6 +167,7 @@ class App:
       contador += 1
     print(w)
     print(contador)
+    contador -= 1
     if contador == -1:
       contador = 0
     self.manzana = (contador%13, contador//13)
