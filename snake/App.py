@@ -50,8 +50,6 @@ class App:
           self.snake = [(6,6), (6,7), (6,8)]
         elif self.snake[0][1]-1 != self.snake[1][1] and self.snake[0][1] != 0:
           self.contador += 1
-          if self.contador == 10:
-            self.pixel_random()
           print(self.snake)
           self.snake.insert(0,(self.snake[0][0],self.snake[0][1]-1))
           if self.snake[0] != self.manzana:
@@ -157,8 +155,9 @@ class App:
   def pixel_random(self):
     randomx = int(random()*(169-len(self.snake)))
     print(randomx)
-    contador = 0
+    contador = -1
     w = 0
+    
     while randomx != contador:
       print((contador%13, contador//13))
       if (contador%13, contador//13) in self.snake:
@@ -168,7 +167,9 @@ class App:
       contador += 1
     print(w)
     print(contador)
-    self.manzana = (contador%13-1, contador//13)
+    if contador == -1:
+      contador = 0
+    self.manzana = (contador%13, contador//13)
   def on_loop(self):
     pass
   
