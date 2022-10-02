@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import *
 from random import random
+
+from pyparsing import White
 """
 pygame.init()
 dis = pygame.display.set_mode((400,300))
@@ -19,6 +21,7 @@ class App:
   WHITE = (255, 255, 255)
   GRAY = (130,130,130)
   SCOREFONT = 0
+  
   def __init__(self):
     self._running = False
     self._display_surf = None
@@ -27,6 +30,7 @@ class App:
     self.manzana = (0,0)
     self.score = 0
     self.contador = 10
+  
   def on_init(self):
     pygame.init()
     App.SCOREFONT = pygame.font.SysFont("dejavusansmono", 25)
@@ -61,6 +65,7 @@ class App:
             self.draw_grid(self.score)
           if self.contador == 10:
             self.pixel_random()
+      
       elif event.key == pygame.K_DOWN:
         if self.snake[0][1] == 12 or (self.snake[0][0],self.snake[0][1]+1) in self.snake[2:len(self.snake)-1]:
           self.score = 0
@@ -85,6 +90,7 @@ class App:
             self.draw_grid(self.score)
           if self.contador == 10:
             self.pixel_random()
+      
       elif event.key == pygame.K_LEFT:
         if self.snake[0][0] == 0 or (self.snake[0][0]-1,self.snake[0][1]) in self.snake[2:len(self.snake)-1]:
           self.score = 0
@@ -111,6 +117,7 @@ class App:
             self.draw_grid(self.score)
           if self.contador == 10:
             self.pixel_random()
+      
       elif event.key == pygame.K_RIGHT:
         if self.snake[0][0] == 12 or (self.snake[0][0]+1,self.snake[0][1]) in self.snake[2:len(self.snake)-1]:
           self.score = 0
@@ -122,7 +129,6 @@ class App:
           for e in self.snake:
             pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
           self.snake = [(6,6), (6,7), (6,8)]
-        
         elif self.snake[0][0]+1 != self.snake[1][0]:
           self.contador += 1
           if self.contador == 10:
@@ -138,8 +144,11 @@ class App:
             self.draw_grid(self.score)
           if self.contador == 10:
             self.pixel_random()
+    
     elif event.type == pygame.QUIT:
       self._running = False
+
+  ## Puts apple in random place on the grid
   def pixel_random(self):
     randomx = int(random()*(169-len(self.snake)))
     contador = -1
@@ -153,6 +162,7 @@ class App:
     if contador == -1:
       contador = 0
     self.manzana = (contador%13, contador//13)
+  
   def on_loop(self):
     pass
   
@@ -171,11 +181,43 @@ class App:
       for y in range(blockSize, blockSize*14, blockSize):
         rect = pygame.Rect(x, y, blockSize, blockSize)
         pygame.draw.rect(self._display_surf, App.BLACK, rect, 1)
+        
+  def draw_start_screen(self):        
+    intro_text = pygame.font.SysFont("dejavusansmono", 30, bold=True)
+    
+    # Set 2 text lines for game start
+    start_text = intro_text.render("Start Game", True, (0, 0, 0))
+    textRect = start_text.get_rect()
+    textRect.center = (self.size[0] / 2), (self.size[1] / 2)
+    start_text_instruction = intro_text.render("PRESS ENTER", True, (0, 0, 0))
+    textInstructionRect = start_text_instruction.get_rect()
+    textInstructionRect.center = (self.size[0] / 2), ((self.size[1] / 2) + 45)
+    # Displays 2 text lines
+    self._display_surf.blit(start_text, textRect)
+    self._display_surf.blit(start_text_instruction, textInstructionRect)
+    pygame.display.update()
+    
+    # Waits for the indicated input
+    intro = True
+    while intro:
+      for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+          if event.key == pygame.K_RETURN:
+            intro = False
+        elif event.type == pygame.QUIT:
+          pygame.quit()
+          quit()
+    
+    self._display_surf.fill(App.WHITE)
+  
+  def draw_try_again_screen(self):
+    pass
 
   def on_execute(self):
     if self.on_init() == False:
       self._running = False
     self.pixel_random()
+    self.draw_start_screen()
     self.draw_grid(0)
     while self._running:
       for event in pygame.event.get():
