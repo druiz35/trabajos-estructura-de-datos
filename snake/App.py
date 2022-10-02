@@ -70,8 +70,6 @@ class App:
       pass
     elif self.snake[0][1]-1 != self.snake[1][1] and self.snake[0][1] != 0:
       self.contador += 1
-      if self.contador == 10:
-        self.pixel_random()
       self.snake.insert(0,(self.snake[0][0],self.snake[0][1]-1))
       if self.snake[0] != self.manzana:
         e = self.snake.pop()
@@ -107,8 +105,6 @@ class App:
     elif self.snake[0][0]-1 != self.snake[1][0]:
       self.contador += 1
       self.snake.insert(0,(self.snake[0][0]-1,self.snake[0][1]))
-      if self.contador == 10:
-        self.pixel_random()
       if self.snake[0] != self.manzana:
         e = self.snake.pop()
         pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
@@ -125,8 +121,6 @@ class App:
       pass
     elif self.snake[0][0]+1 != self.snake[1][0]:
       self.contador += 1
-      if self.contador == 10:
-        self.pixel_random()
       self.snake.insert(0,(self.snake[0][0]+1,self.snake[0][1]))
       if self.snake[0] != self.manzana:
         e = self.snake.pop()
