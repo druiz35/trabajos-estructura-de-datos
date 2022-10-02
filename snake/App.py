@@ -8,6 +8,7 @@ class App:
   WHITE = (255, 255, 255)
   GRAY = (130,130,130)
   SCOREFONT = 0
+  
   def __init__(self):
     self._running = False
     self._display_surf = None
@@ -190,9 +191,41 @@ class App:
       for y in range(blockSize, blockSize*14, blockSize):
         rect = pygame.Rect(x, y, blockSize, blockSize)
         pygame.draw.rect(self._display_surf, App.BLACK, rect, 1)
+        
+  def draw_start_screen(self):        
+    intro_text = pygame.font.SysFont("dejavusansmono", 30, bold=True)
+    
+    # Set 2 text lines for game start
+    start_text = intro_text.render("Start Game", True, (0, 0, 0))
+    textRect = start_text.get_rect()
+    textRect.center = (self.size[0] / 2), (self.size[1] / 2)
+    start_text_instruction = intro_text.render("PRESS ENTER", True, (0, 0, 0))
+    textInstructionRect = start_text_instruction.get_rect()
+    textInstructionRect.center = (self.size[0] / 2), ((self.size[1] / 2) + 45)
+    # Displays 2 text lines
+    self._display_surf.blit(start_text, textRect)
+    self._display_surf.blit(start_text_instruction, textInstructionRect)
+    pygame.display.update()
+    
+    # Waits for the indicated input
+    intro = True
+    while intro:
+      for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+          if event.key == pygame.K_RETURN:
+            intro = False
+        elif event.type == pygame.QUIT:
+          pygame.quit()
+          quit()
+    
+    self._display_surf.fill(App.WHITE)
+  
+  def draw_try_again_screen(self):
+    pass
 
   def on_execute(self):
     self.pixel_random()
+    self.draw_start_screen()
     self.draw_grid(0)
     while self._running:
       events = pygame.event.get()
