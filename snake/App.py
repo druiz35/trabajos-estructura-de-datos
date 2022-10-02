@@ -77,7 +77,7 @@ class App:
         e = self.snake.pop()
         pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
       else:
-        self.contador = 9
+        self.contador = 0
         self.manzana = -1
         self.score += 10
         self.draw_grid(self.score)
@@ -94,7 +94,7 @@ class App:
         e = self.snake.pop()
         pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
       else:
-        self.contador = 9
+        self.contador = 0
         self.manzana = -1
         self.score += 10
         self.draw_grid(self.score)
@@ -113,7 +113,7 @@ class App:
         e = self.snake.pop()
         pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
       else:
-        self.contador = 9
+        self.contador = 0
         self.manzana = -1
         self.score += 10
         self.draw_grid(self.score)
@@ -132,7 +132,7 @@ class App:
         e = self.snake.pop()
         pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(e[0]*30+1, (e[1]+1)*30+1, 28, 28), 28)
       else:
-        self.contador = 9
+        self.contador = 0
         self.manzana = -1
         self.score += 10
         self.draw_grid(self.score)
