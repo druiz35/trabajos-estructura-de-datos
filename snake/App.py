@@ -187,15 +187,22 @@ class App:
         pygame.draw.rect(self._display_surf, App.BLACK, rect, 1)
         
   def draw_start_screen(self):        
-    intro_text = pygame.font.SysFont("dejavusansmono", 30, bold=True)
-    
-    # Set 2 text lines for game start
-    start_text = intro_text.render("Start Game", True, (0, 0, 0))
+    self.menu_screen_prototype("Start game", 35, "PRESS ENTER", 25, 20)
+  
+  def draw_try_again_screen(self, score):
+    self.menu_screen_prototype(f"Final score: {score}", 35, "Press ENTER to try again", 25, 20)
+  
+  def menu_screen_prototype(self, text1 = 'Title', text1_size = 30, text2 = 'Subtitle', text2_size = 30, space_between_text = 10, typography = 'dejavusansmono'):
+    # Set 1st text object
+    text1_font = pygame.font.SysFont(typography, text1_size, bold=True)
+    start_text = text1_font.render(text1, True, (0, 0, 0))
     textRect = start_text.get_rect()
-    textRect.center = (self.size[0] / 2), (self.size[1] / 2)
-    start_text_instruction = intro_text.render("PRESS ENTER", True, (0, 0, 0))
+    textRect.center = (self.size[0] / 2), ( (self.size[1] / 2) - space_between_text )
+    # Set 2nd text object
+    text2_font = pygame.font.SysFont(typography, text2_size, bold=True)
+    start_text_instruction = text2_font.render(text2, True, (0, 0, 0))
     textInstructionRect = start_text_instruction.get_rect()
-    textInstructionRect.center = (self.size[0] / 2), ((self.size[1] / 2) + 45)
+    textInstructionRect.center = (self.size[0] / 2), ( (self.size[1] / 2) + space_between_text )
     # Displays 2 text lines
     self._display_surf.blit(start_text, textRect)
     self._display_surf.blit(start_text_instruction, textInstructionRect)
@@ -213,9 +220,6 @@ class App:
           quit()
     
     self._display_surf.fill(App.WHITE)
-  
-  def draw_try_again_screen(self):
-    pass
 
   def on_execute(self):
     self.pixel_random()
