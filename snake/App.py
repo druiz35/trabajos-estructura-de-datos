@@ -54,6 +54,7 @@ class App:
       (self.snake[0][0]+1,self.snake[0][1]) in self.snake[2:len(self.snake)-1] and direction == "right",
     ]
     if True in cases:
+      self.draw_try_again_screen(self.score)
       self.score = 0
       self.draw_grid(self.score)
       self.contador = 10
@@ -190,9 +191,10 @@ class App:
     self.menu_screen_prototype("Start game", 35, "PRESS ENTER", 25, 20)
   
   def draw_try_again_screen(self, score):
-    self.menu_screen_prototype(f"Final score: {score}", 35, "Press ENTER to try again", 25, 20)
+    self.menu_screen_prototype(f"Final score: {score}", 35, "Press ENTER to try again", 25, 20, bg_rgb=(255, 100, 100))
   
-  def menu_screen_prototype(self, text1 = 'Title', text1_size = 30, text2 = 'Subtitle', text2_size = 30, space_between_text = 10, typography = 'dejavusansmono'):
+  def menu_screen_prototype(self, text1 = 'Title', text1_size = 30, text2 = 'Subtitle', text2_size = 30, space_between_text = 10, typography = 'dejavusansmono', bg_rgb = (255, 255, 255)):
+    self._display_surf.fill(bg_rgb)
     # Set 1st text object
     text1_font = pygame.font.SysFont(typography, text1_size, bold=True)
     start_text = text1_font.render(text1, True, (0, 0, 0))
@@ -208,6 +210,8 @@ class App:
     self._display_surf.blit(start_text_instruction, textInstructionRect)
     pygame.display.update()
     
+    self._display_surf.fill(App.WHITE)
+    
     # Waits for the indicated input
     intro = True
     while intro:
@@ -218,8 +222,6 @@ class App:
         elif event.type == pygame.QUIT:
           pygame.quit()
           quit()
-    
-    self._display_surf.fill(App.WHITE)
 
   def on_execute(self):
     self.pixel_random()
