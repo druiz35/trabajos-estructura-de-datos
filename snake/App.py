@@ -165,7 +165,7 @@ class App:
     randomx = int(random()*(169-len(self.snake)))
     contador = -1
     while randomx != contador:
-      if (contador%13, contador//13) in self.snake:
+      if (contador%13, contador//13) in self.snake or (randomx == 0 and (0,0) in self.snake):
         randomx += 1
       contador += 1
     contador -= 1
