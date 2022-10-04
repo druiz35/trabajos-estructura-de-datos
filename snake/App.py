@@ -63,8 +63,8 @@ class App:
       self.contador = 10
       if self.manzana != -1:
         pygame.draw.rect(self._display_surf, App.WHITE, pygame.Rect(self.manzana[0]*30+1, (self.manzana[1]+1)*30+1, 28, 28), 28)
-      self.pixel_random()
       self.reset_snake()
+      self.pixel_random()
       return True
     else:
       return False
