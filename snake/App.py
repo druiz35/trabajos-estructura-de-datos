@@ -134,7 +134,7 @@ class App:
       if self.contador == 10:
         self.pixel_random()
 
-  def on_event(self, event):
+  def on_event(self):
     #print(pygame.key.get_pressed()[pygame.K_RIGHT])
     """if event.type == pygame.KEYDOWN:
       if event.key == pygame.K_UP:
@@ -148,18 +148,18 @@ class App:
     elif event.type == pygame.QUIT:
       self._running = False"""
     #print(event)
-    if event == None:
+    if self.current_event == None:
       pass
-    elif event.type == pygame.QUIT:
+    elif self.current_event.type == pygame.QUIT:
       self._running = False
-    elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-      if event.key == pygame.K_UP:
+    elif self.current_event.type == pygame.KEYDOWN or self.current_event.type == pygame.KEYUP:
+      if self.current_event.key == pygame.K_UP:
         self.case_up()
-      elif event.key == pygame.K_DOWN:
+      elif self.current_event.key == pygame.K_DOWN:
         self.case_down()
-      elif event.key == pygame.K_LEFT:
+      elif self.current_event.key == pygame.K_LEFT:
         self.case_left()
-      elif event.key == pygame.K_RIGHT:
+      elif self.current_event.key == pygame.K_RIGHT:
         self.case_right()
   
   def pixel_random(self):
@@ -230,17 +230,28 @@ class App:
     while self._running:
       events = pygame.event.get()
       if len(events) != 0:
-        last_event = events[-1]
-        if last_event.type == pygame.KEYDOWN or last_event.type == pygame.KEYUP and last_event != None:
-          self.current_event = events[-1]
-        elif last_event.type == pygame.QUIT:
-          self.current_event = last_event
-      self.on_event(self.current_event)
-      #print(self.current_event) 
+        event = events[-1]
+        if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP or event.type == pygame.QUIT:
+          if self.current_event == None:
+            self.current_event = events[-1]
+          else:
+            opposite_keys = (
+              event.key == pygame.K_UP and self.current_event.key == pygame.K_DOWN,
+              event.key == pygame.K_DOWN and self.current_event.key == pygame.K_UP,
+              event.key == pygame.K_LEFT and self.current_event.key == pygame.K_RIGHT,
+              event.key == pygame.K_RIGHT and self.current_event.key == pygame.K_LEFT
+            )
+            print(opposite_keys)
+            if not True in opposite_keys:
+              self.current_event = events[-1]
+
+      self.on_event()
+      
       self.draw_snake()
       self.draw_apple()
       pygame.display.update()
       time.sleep(1)
+
     self.on_cleanup()
 
 if __name__ == "__main__":
