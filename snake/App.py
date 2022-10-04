@@ -18,6 +18,7 @@ class App:
     self.manzana = (0,0)
     self.on_init()
     self.contador = 10
+    self.x = 0
     self.current_event = None
 
   def on_init(self):
@@ -82,7 +83,8 @@ class App:
         self.manzana = -1
         self.score += 10
         self.draw_grid(self.score)
-      if self.contador == 10:
+        self.x = int(random()*10)+1
+      if self.contador == self.x:
         self.pixel_random()
 
   def case_down(self):
@@ -99,7 +101,8 @@ class App:
         self.manzana = -1
         self.score += 10
         self.draw_grid(self.score)
-      if self.contador == 10:
+        self.x = int(random()*10)+1
+      if self.contador == self.x:
         self.pixel_random()
   
   def case_left(self):
@@ -116,7 +119,8 @@ class App:
         self.manzana = -1
         self.score += 10
         self.draw_grid(self.score)
-      if self.contador == 10:
+        self.x = int(random()*10)+1
+      if self.contador == self.x:
         self.pixel_random()
   
   def case_right(self):
@@ -133,7 +137,8 @@ class App:
         self.manzana = -1
         self.score += 10
         self.draw_grid(self.score)
-      if self.contador == 10:
+        self.x = int(random()*10)+1
+      if self.contador == self.x:
         self.pixel_random()
 
   def on_event(self):
