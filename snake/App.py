@@ -54,6 +54,8 @@ class App:
       (self.snake[0][0]+1,self.snake[0][1]) in self.snake[2:len(self.snake)-1] and direction == "right",
     ]
     if True in cases:
+      death_message = "You bitted yourself!" if True in cases[4:] else "You hit the wall!"
+      self.draw_game_over_screen(death_message)
       self.draw_try_again_screen(self.score)
       self.score = 0
       self.draw_grid(self.score)
@@ -189,9 +191,12 @@ class App:
         
   def draw_start_screen(self):        
     self.menu_screen_prototype("Start game", 35, "PRESS ENTER", 25, 20)
+    
+  def draw_game_over_screen(self, death_message):
+    self.menu_screen_prototype("GAME OVER!", 40, death_message, 25, 25, bg_rgb=(255, 55, 55))
   
   def draw_try_again_screen(self, score):
-    self.menu_screen_prototype(f"Final score: {score}", 35, "Press ENTER to try again", 25, 20, bg_rgb=(255, 100, 100))
+    self.menu_screen_prototype(f"Final score: {score}", 35, "Press ENTER to try again", 25, 20, bg_rgb=(100, 255, 100))
   
   def menu_screen_prototype(self, text1 = 'Title', text1_size = 30, text2 = 'Subtitle', text2_size = 30, space_between_text = 10, typography = 'dejavusansmono', bg_rgb = (255, 255, 255)):
     self._display_surf.fill(bg_rgb)
